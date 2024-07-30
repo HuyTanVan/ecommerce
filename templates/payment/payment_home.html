@@ -1,0 +1,242 @@
+{% extends '../store/base.html' %}
+{% load static %}
+{% block title %}Payment{% endblock %}
+{% block content %}
+<section class="bg-light py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-8 col-lg-8 mb-4">
+        <div class="card mb-4 border shadow-0">
+          <div class="p-4 d-flex justify-content-between">
+            <div class="">
+              <h5>Have an account?</h5>
+              <p class="mb-0 text-wrap ">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+            </div>
+            <div class="d-flex align-items-center justify-content-center flex-column flex-md-row">
+              <a href="" class="btn btn-outline-primary me-0 me-md-2 mb-2 mb-md-0 w-100">Register</a>
+              <a href="" class="btn btn-primary shadow-0 text-nowrap w-100">Sign in</a>
+            </div>
+          </div>
+        </div>
+        <!-- Checkout -->
+        <div id="payment-form" class="card shadow-0 border">
+          <div class="p-4">
+            <h5 class="card-title mb-3">Payment Information</h5>
+            <div id="card-errors" class="a" role="alert"></div>
+            <form>
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label for="firstName" class="mb-0">First Name</label>
+                  <div class="form-outline">
+                    <input type="text" id="firstName" placeholder="Type here" class="form-control" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label for="lastName" class="mb-0">Last Name</label>
+                  <div class="form-outline">
+                    <input type="text" id="lastName" placeholder="Type here" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 mb-3">
+                  <p class="mb-0">Address 1</p>
+                  <div class="form-outline">
+                    <input type="text" id="custAddress" placeholder="Type here" class="form-control" />
+                  </div>
+                </div>
+                <div class="col-sm-12 mb-3">
+                  <p class="mb-0">Address 2<span class="text-muted small">(Optional)</span></p>
+                  
+                  <div class="form-outline">
+                    <input type="text" id="custAddress" placeholder="Type here" class="form-control" />
+                  </div>
+                </div>  
+                <div class="col-sm-5 mb-3">
+                  <p class="mb-0">City</p>
+                  <div class="form-outline">
+                    <input type="text" id="city" placeholder="Type here" class="form-control" />
+                  </div>
+                </div>
+                <div class="col-sm-3 mb-3">
+                  <p class="mb-0">State</p>
+                  <select class="form-select" id="state">
+                    <option value="0">Select </option>
+                    <option value="1">New York</option>
+                    <option value="2">Moscow</option>
+                    <option value="3">Samarqand</option>
+                  </select>
+                </div>
+                <div class="col-sm-4 col-6 mb-3">
+                  <label for="Postcode" class="mb-0">Zip Code<span class="text-muted small">(Required)</span></label>
+                  <div class="form-outline">
+                    <input type="text" id="zipCode" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4">
+              <h4 class="mb-3">Payment</h4>
+              <label for="card-element">Credit or debit card</label>
+              <div id="card-element" class="form-control form-control-payment">
+                <!-- Payment elements will appear here -->
+              </div>
+              <hr class="my-4">
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                <label class="form-check-label" for="flexCheckDefault1">Save this address</label>
+              </div>
+              <div class="mb-3">
+                <p class="mb-0">Message to seller</p>
+                <div class="form-outline">
+                  <textarea class="form-control" id="textAreaExample1" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="float-end">
+                <button class="btn btn-light border">Cancel</button>
+
+                <button id="submit" class="btn btn-primary fw-bold" data-secret="{{ client_secret }}">Continue</button>
+              </div>
+          </div>
+        </div>
+        </form>
+        <!-- Checkout -->
+
+
+
+      </div>
+      <div class="col-md-4 order-md-2 mb-4">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Your cart</span>
+            <span class="badge badge-secondary badge-pill">3</span>
+          </h4>
+          <ul class="list-group mb-3">
+            {% for item in basket %}
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <p class="my-0">{{item.product.name}}</p>
+                <small class="text-muted">Brief description</small>
+              </div>
+              <strong class="my-0">${{item.price}}</strong>
+
+            </li>
+            {% endfor %}
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="d-flex flex-column w-100 text-success">
+                <div class="d-flex justify-content-between">
+                  <small id='2'>Item Subtotal</small>
+                  <small class="text-success">${{basket.get_subtotal_price}}</small>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <small>Store Pickup</small>
+                  <small class="text-success">Free</small>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <small>Delivery</small>
+                  <small class="text-success">Free</small>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <small>Estimated Sales Tax</small>
+                  <small class="text-success">$100.00</small>
+                </div>
+              </div>
+            </li>            
+            <li class="list-group-item d-flex justify-content-between">
+              <h3>Total (USD)</h3>
+              <h3>${{basket.get_total_price}}</h3>
+            </li>
+          </ul>
+
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center text-lg-start text-muted bg-primary mt-3">
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start pt-4 pb-4">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-12 col-lg-3 col-sm-12 mb-2">
+          <!-- Content -->
+          <a href="" target="_blank" class="text-white h2">
+            MDB
+          </a>
+          <p class="mt-1 text-white">
+            © 2023 Copyright: MDBootstrap.com
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-6 col-sm-4 col-lg-2">
+          <!-- Links -->
+          <h6 class="text-uppercase text-white fw-bold mb-2">
+            Store
+          </h6>
+          <ul class="list-unstyled mb-4">
+            <li><a class="text-white-50" href="">About us</a></li>
+            <li><a class="text-white-50" href="">Find store</a></li>
+            <li><a class="text-white-50" href="">Categories</a></li>
+            <li><a class="text-white-50" href="">Blogs</a></li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-6 col-sm-4 col-lg-2">
+          <!-- Links -->
+          <h6 class="text-uppercase text-white fw-bold mb-2">
+            Information
+          </h6>
+          <ul class="list-unstyled mb-4">
+            <li><a class="text-white-50" href="">Help center</a></li>
+            <li><a class="text-white-50" href="">Money refund</a></li>
+            <li><a class="text-white-50" href="">Shipping info</a></li>
+            <li><a class="text-white-50" href="">Refunds</a></li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-6 col-sm-4 col-lg-2">
+          <!-- Links -->
+          <h6 class="text-uppercase text-white fw-bold mb-2">
+            Support
+          </h6>
+          <ul class="list-unstyled mb-4">
+            <li><a class="text-white-50" href="">Help center</a></li>
+            <li><a class="text-white-50" href="">Documents</a></li>
+            <li><a class="text-white-50" href="">Account restore</a></li>
+            <li><a class="text-white-50" href="">My orders</a></li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+        <!-- Grid column -->
+        <div class="col-12 col-sm-12 col-lg-3">
+          <!-- Links -->
+          <h6 class="text-uppercase text-white fw-bold mb-2">Newsletter</h6>
+          <p class="text-white">Stay in touch with latest updates about our products and offers</p>
+          <div class="input-group mb-3">
+            <input type="email" class="form-control border" placeholder="Email" aria-label="Email"
+              aria-describedby="button-addon2" />
+            <button class="btn btn-light border shadow-0" type="button" id="button-addon2" data-mdb-ripple-color="dark">
+              Join
+            </button>
+          </div>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <script language="JavaScript" type="text/javascript">
+    var CSRF_TOKEN = '{{ csrf_token }}';
+  </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="https://js.stripe.com/v3/"> </script>
+  <script language="JavaScript" type="text/javascript" src="{% static 'payment/index.js' %}" data-rel-js> </script>
+  {% endblock %}
+

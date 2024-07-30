@@ -1,0 +1,52 @@
+{% extends '../../store/base.html' %}
+{% block title %}Your Orders{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    {% for order, values in orders.items %}
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            <div class="rounded">
+                <div class="table-responsive table-borderless">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    <div class="toggle-btn">
+                                        <div class="inner-circle"></div>
+                                    </div>
+                                </th>
+                                <th>Order #{{order}}</th>
+                                <td> {{order.created}}</td>
+                                <th>${{order.total_paid}}</th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body">
+                            <tr class="cell-1">
+                                <td class="text-center">
+                                    <div class="toggle-btn">
+                                        <div class="inner-circle"></div>
+                                    </div>
+                                </td>
+                                <td>                              
+                                    {% for product, qty in values %}
+                                        {{ product }}
+                                        {{ qty }}
+                                        <br>
+                                    {% endfor %}
+                                </td>
+                                <td><strong>Shipping address</strong><br> 880 Queen, Newyork City, 16262</td>
+                                <td>Delivered on Jul 12, 2023</td>
+                                <td><span class="badge badge-success">Fullfilled</span></td>
+                            </tr>                           
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
